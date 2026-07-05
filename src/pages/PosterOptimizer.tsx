@@ -15,6 +15,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 // @ts-ignore
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
 import { useError } from '../contexts/ErrorContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import {
   DndContext,
   closestCenter,
@@ -116,8 +117,8 @@ function PosterOptimizer() {
   }, []);
 
   const [files, setFiles] = useState<PdfFile[]>([]);
-  const [layoutMode, setLayoutMode] = useState<'1-up' | '2-up'>('1-up');
-  const [rasterize, setRasterize] = useState(false);
+  const [layoutMode, setLayoutMode] = useLocalStorage<'1-up' | '2-up'>('prideprint_poster_layout', '1-up');
+  const [rasterize, setRasterize] = useLocalStorage('prideprint_poster_rasterize', false);
   const [isGeneratingDownload, setIsGeneratingDownload] = useState(false);
   const [isPreviewGenerating, setIsPreviewGenerating] = useState(false);
   const [isDragActive, setIsDragActive] = useState(false);

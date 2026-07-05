@@ -13,9 +13,9 @@ import {
   Crop as CropIcon,
   X,
   Check,
-  ZoomIn
 } from 'lucide-react';
 import { useError } from '../contexts/ErrorContext';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { PDFDocument, rgb } from 'pdf-lib';
 import {
   DndContext,
@@ -142,12 +142,12 @@ export default function ButtonPrinter() {
 
   const { showError } = useError();
   const [images, setImages] = useState<ImageFile[]>([]);
-  const [buttonSize, setButtonSize] = useState<number>(1.25);
-  const [isCustomSize, setIsCustomSize] = useState<boolean>(false);
-  const [paperSize, setPaperSize] = useState<keyof typeof PAPER_SIZES>('Letter');
-  const [copies, setCopies] = useState<number>(1);
-  const [printBleed, setPrintBleed] = useState<boolean>(true);
-  const [showOutline, setShowOutline] = useState<boolean>(true);
+  const [buttonSize, setButtonSize] = useLocalStorage<number>('prideprint_button_size', 1.25);
+  const [isCustomSize, setIsCustomSize] = useLocalStorage<boolean>('prideprint_is_custom_size', false);
+  const [paperSize, setPaperSize] = useLocalStorage<keyof typeof PAPER_SIZES>('prideprint_paper_size', 'Letter');
+  const [copies, setCopies] = useLocalStorage<number>('prideprint_button_copies', 1);
+  const [printBleed, setPrintBleed] = useLocalStorage<boolean>('prideprint_button_bleed', true);
+  const [showOutline, setShowOutline] = useLocalStorage<boolean>('prideprint_button_outline', true);
   const [imgUrl, setImgUrl] = useState('');
   const [isUrlLoading, setIsUrlLoading] = useState(false);
   

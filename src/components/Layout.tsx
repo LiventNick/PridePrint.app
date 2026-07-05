@@ -1,8 +1,18 @@
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard } from 'lucide-react';
+import LegalModal from './LegalModal';
 
 export default function Layout() {
   const location = useLocation();
+  const [showLegalModal, setShowLegalModal] = useState(false);
+  const [legalTab, setLegalTab] = useState<'tos' | 'privacy'>('tos');
+
+  const openLegal = (tab: 'tos' | 'privacy', e: React.MouseEvent) => {
+    e.preventDefault();
+    setLegalTab(tab);
+    setShowLegalModal(true);
+  };
   return (
     <div className="layout-container">
       <nav className="navbar glass-panel">
@@ -33,9 +43,19 @@ export default function Layout() {
           <span className="footer-divider">|</span>
           <a href="https://github.com/LiventNick/prideprint.app/issues/new/choose" target="_blank" rel="noopener noreferrer">Report a Bug / Request a Feature</a>
           <span className="footer-divider">|</span>
+          <a href="#" onClick={(e) => openLegal('tos', e)}>Terms of Service</a>
+          <span className="footer-divider">|</span>
+          <a href="#" onClick={(e) => openLegal('privacy', e)}>Privacy Policy</a>
+          <span className="footer-divider">|</span>
           <span>Made by <a href="https://liventnick.xyz" target="_blank" rel="noopener noreferrer">LiventNick</a></span>
         </div>
       </footer>
+      
+      <LegalModal 
+        isOpen={showLegalModal} 
+        onClose={() => setShowLegalModal(false)} 
+        defaultTab={legalTab} 
+      />
     </div>
   );
 }
