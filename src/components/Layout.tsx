@@ -7,7 +7,7 @@ export default function Layout() {
     <div className="layout-container">
       <nav className="navbar glass-panel">
         <Link to="/" className="navbar-brand">
-          <Printer size={28} className="brand-icon" />
+          <img src="/logo.svg" alt="PridePrint Logo" className="brand-icon" style={{ width: 32, height: 32 }} />
           <span className="brand-text">Nick's Pride Print Shop</span>
         </Link>
         <div className="navbar-links">
@@ -31,7 +31,7 @@ export default function Layout() {
           <span className="footer-divider">|</span>
           <a href="https://github.com/LiventNick/prideprint.app" target="_blank" rel="noopener noreferrer">GitHub</a>
           <span className="footer-divider">|</span>
-          <a href="https://github.com/LiventNick/prideprint.app/issues/new?title=Feature+Request%3A+" target="_blank" rel="noopener noreferrer">Request a feature here!</a>
+          <a href="https://github.com/LiventNick/prideprint.app/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request a feature here!</a>
           <span className="footer-divider">|</span>
           <span>Made by <a href="https://liventnick.xyz" target="_blank" rel="noopener noreferrer">LiventNick</a></span>
         </div>

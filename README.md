@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="printtools.svg" alt="PridePrint.app Logo" width="128" />
+</p>
+
 # Nick's Pride Print Shop
 
 A client-side suite of PDF tools designed specifically for print shop workflows. It operates entirely in the browser, meaning files are processed securely on your machine without being uploaded to any external servers.

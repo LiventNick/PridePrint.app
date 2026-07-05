@@ -1,0 +1,45 @@
+name: Feature Request
+description: Suggest an idea for PridePrint.app
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees:
+  - LiventNick
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature for the Print Shop!
+  - type: input
+    id: feature_name
+    attributes:
+      label: Feature Name
+      description: A short, clear name for the feature.
+      placeholder: e.g. "Sticker Sheet Layout"
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Proposed Workflow
+      description: Walk me through exactly how you would use this feature step-by-step.
+      placeholder: |
+        1. I click on the new sticker layout button.
+        2. I upload 5 different images.
+        3. The app automatically...
+    validations:
+      required: true
+  - type: textarea
+    id: expectations
+    attributes:
+      label: Expected Result
+      description: What exactly should happen or be generated at the end of this workflow?
+      placeholder: "The app should generate a Letter-sized PDF with the images packed tightly together..."
+    validations:
+      required: true
+  - type: textarea
+    id: photos
+    attributes:
+      label: Example Photos / Mockups
+      description: Please drag and drop any example photos, sketches, or screenshots here so I can better understand exactly what you want!
+    validations:
+      required: false
