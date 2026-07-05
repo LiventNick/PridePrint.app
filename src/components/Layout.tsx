@@ -31,7 +31,7 @@ export default function Layout() {
           <span className="footer-divider">|</span>
           <a href="https://github.com/LiventNick/prideprint.app" target="_blank" rel="noopener noreferrer">GitHub</a>
           <span className="footer-divider">|</span>
-          <a href="https://github.com/LiventNick/prideprint.app/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request a feature here!</a>
+          <a href="https://github.com/LiventNick/prideprint.app/issues/new/choose" target="_blank" rel="noopener noreferrer">Report a Bug / Request a Feature</a>
           <span className="footer-divider">|</span>
           <span>Made by <a href="https://liventnick.xyz" target="_blank" rel="noopener noreferrer">LiventNick</a></span>
         </div>

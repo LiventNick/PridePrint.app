@@ -1,0 +1,46 @@
+name: Bug Report
+description: Create a report to help us improve PridePrint.app
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - LiventNick
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: bug_name
+    attributes:
+      label: Bug Name
+      description: A short, clear name for the bug.
+      placeholder: e.g. "Poster Optimizer crashes on PDF generation"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Walk me through exactly how to reproduce this bug step-by-step.
+      placeholder: |
+        1. Go to the Poster Optimizer page
+        2. Upload a PNG file
+        3. Click 'Generate'
+        4. The app crashes...
+    validations:
+      required: true
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What exactly should have happened instead?
+      placeholder: "The app should have generated a Letter-sized PDF with the images packed tightly together..."
+    validations:
+      required: true
+  - type: textarea
+    id: photos
+    attributes:
+      label: Screenshots / Error Logs
+      description: Please drag and drop any screenshots or error logs here so I can better understand exactly what went wrong!
+    validations:
+      required: false
