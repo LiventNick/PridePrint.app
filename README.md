@@ -6,6 +6,9 @@
 
 A client-side suite of PDF tools designed specifically for print shop workflows. It operates entirely in the browser, meaning files are processed securely on your machine without being uploaded to any external servers.
 
+## If you enjoyed the tool, please consider
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S3M721DHOW)
+
 ## Tools Included
 
 ### 1. Poster Optimizer
