@@ -13,6 +13,7 @@ import {
   Crop as CropIcon,
   X,
   Check,
+  ZoomIn
 } from 'lucide-react';
 import { useError } from '../contexts/ErrorContext';
 import { useLocalStorage } from '../hooks/useLocalStorage';
