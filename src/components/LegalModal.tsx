@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Shield, FileText } from 'lucide-react';
 
 interface LegalModalProps {
@@ -8,13 +8,37 @@ interface LegalModalProps {
 }
 
 export default function LegalModal({ isOpen, onClose, defaultTab = 'tos' }: LegalModalProps) {
-  const [activeTab, setActiveTab] = React.useState<'tos' | 'privacy'>(defaultTab);
+  const [activeTab, setActiveTab] = useState<'tos' | 'privacy'>(defaultTab);
+  const [isClosing, setIsClosing] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(defaultTab);
+      setIsClosing(false);
+    }
+  }, [isOpen, defaultTab]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 200); // match animation duration
+  };
+
+  if (!isOpen && !isClosing) return null;
 
   return (
-    <div className="error-modal-overlay" onClick={onClose} style={{ zIndex: 3000 }}>
-      <div className="error-modal-content glass-panel" onClick={e => e.stopPropagation()} style={{ maxWidth: '600px', maxHeight: '80vh' }}>
+    <div 
+      className={`error-modal-overlay ${isClosing ? 'closing' : ''}`} 
+      onClick={handleClose} 
+      style={{ zIndex: 3000 }}
+    >
+      <div 
+        className={`error-modal-content glass-panel ${isClosing ? 'closing' : ''}`} 
+        onClick={e => e.stopPropagation()} 
+        style={{ maxWidth: '600px', maxHeight: '80vh' }}
+      >
         <div className="error-modal-header" style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '1rem 1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <button 
@@ -34,7 +58,7 @@ export default function LegalModal({ isOpen, onClose, defaultTab = 'tos' }: Lega
               Privacy Policy
             </button>
           </div>
-          <button className="close-modal-btn" onClick={onClose} aria-label="Close modal">
+          <button className="close-modal-btn" onClick={handleClose} aria-label="Close modal">
             <X size={20} />
           </button>
         </div>

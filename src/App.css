@@ -276,7 +276,7 @@
   flex: 1;
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
+  background: rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,9 +457,9 @@
   align-items: center;
   justify-content: center;
   padding: 2.5rem 1rem;
-  border: 2px dashed var(--card-border);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.25);
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
@@ -468,7 +468,7 @@
 
 .upload-placeholder:hover {
   border-color: var(--accent-color);
-  background: rgba(139, 92, 246, 0.05);
+  background: rgba(0, 0, 0, 0.4);
   color: var(--text-primary);
 }
 
@@ -954,12 +954,36 @@
 @keyframes modalFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.95);
+    transform: translateY(20px) scale(0.95);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.error-modal-overlay.closing {
+  animation: fadeOut 0.2s ease-in forwards;
+}
+
+.error-modal-content.closing {
+  animation: modalFadeOut 0.2s ease-in forwards;
 }
 
 .error-modal-header {
