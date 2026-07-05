@@ -206,7 +206,9 @@ export default function ButtonPrinter() {
     if (!imgUrl) return;
     setIsUrlLoading(true);
     try {
-       const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(imgUrl)}`;
+       const proxyUrl = import.meta.env.DEV 
+         ? `https://corsproxy.io/?${encodeURIComponent(imgUrl)}`
+         : `/api/proxy?url=${encodeURIComponent(imgUrl)}`;
        const res = await fetch(proxyUrl);
        if (!res.ok) throw new Error("Failed to fetch");
        const blob = await res.blob();
