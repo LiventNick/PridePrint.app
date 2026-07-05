@@ -143,6 +143,7 @@ export default function ButtonPrinter() {
   const { showError } = useError();
   const [images, setImages] = useState<ImageFile[]>([]);
   const [buttonSize, setButtonSize] = useState<number>(1.25);
+  const [isCustomSize, setIsCustomSize] = useState<boolean>(false);
   const [paperSize, setPaperSize] = useState<keyof typeof PAPER_SIZES>('Letter');
   const [copies, setCopies] = useState<number>(1);
   const [printBleed, setPrintBleed] = useState<boolean>(true);
@@ -655,14 +656,38 @@ export default function ButtonPrinter() {
             <div className="settings-group">
               <label className="settings-label">
                 <strong>Button Cut Size (Inches)</strong>
-                <input 
-                  type="number" 
-                  className="settings-input" 
-                  value={buttonSize} 
-                  onChange={(e) => setButtonSize(Number(e.target.value) || 1)}
-                  step="0.25"
-                  min="0.5"
-                />
+                <select 
+                  className="settings-input"
+                  value={isCustomSize ? "custom" : buttonSize.toString()}
+                  onChange={(e) => {
+                    if (e.target.value === "custom") {
+                      setIsCustomSize(true);
+                    } else {
+                      setIsCustomSize(false);
+                      setButtonSize(Number(e.target.value));
+                    }
+                  }}
+                >
+                  <option value="1">1"</option>
+                  <option value="1.25">1.25" (Most Common)</option>
+                  <option value="1.5">1.5"</option>
+                  <option value="2.25">2.25"</option>
+                  <option value="3">3"</option>
+                  <option value="custom">Custom Size...</option>
+                </select>
+
+                {isCustomSize && (
+                  <input 
+                    type="number" 
+                    className="settings-input" 
+                    style={{ marginTop: '0.5rem' }}
+                    value={buttonSize} 
+                    onChange={(e) => setButtonSize(Number(e.target.value) || 1)}
+                    step="0.25"
+                    min="0.5"
+                    placeholder="Enter custom size"
+                  />
+                )}
               </label>
 
               <label className="settings-label">
