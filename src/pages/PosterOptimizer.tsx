@@ -14,6 +14,7 @@ import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 // @ts-ignore
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
+import { useError } from '../contexts/ErrorContext';
 import {
   DndContext,
   closestCenter,
@@ -109,6 +110,7 @@ async function rasterizePageToImageBytes(file: globalThis.File, pageIndex: numbe
 }
 
 function PosterOptimizer() {
+  const { showError } = useError();
   useEffect(() => {
     document.title = "Poster Optimizer - Nick's Pride Print Shop";
   }, []);
@@ -343,8 +345,8 @@ function PosterOptimizer() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error generating PDF:', error);
-      alert('An error occurred while generating the PDF. Please try again.');
+      console.error(error);
+      showError('An error occurred while generating the PDF. Please try again.');
     } finally {
       setIsGeneratingDownload(false);
     }

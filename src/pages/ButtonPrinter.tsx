@@ -15,6 +15,7 @@ import {
   Check,
   ZoomIn
 } from 'lucide-react';
+import { useError } from '../contexts/ErrorContext';
 import { PDFDocument, rgb } from 'pdf-lib';
 import {
   DndContext,
@@ -139,10 +140,13 @@ export default function ButtonPrinter() {
     document.title = "Button Printer - Nick's Pride Print Shop";
   }, []);
 
+  const { showError } = useError();
   const [images, setImages] = useState<ImageFile[]>([]);
   const [buttonSize, setButtonSize] = useState<number>(1.25);
   const [paperSize, setPaperSize] = useState<keyof typeof PAPER_SIZES>('Letter');
   const [copies, setCopies] = useState<number>(1);
+  const [printBleed, setPrintBleed] = useState<boolean>(true);
+  const [showOutline, setShowOutline] = useState<boolean>(true);
   const [imgUrl, setImgUrl] = useState('');
   const [isUrlLoading, setIsUrlLoading] = useState(false);
   
@@ -218,7 +222,7 @@ export default function ButtonPrinter() {
        await handleFilesAdded([file]);
        setImgUrl('');
     } catch (err) {
-       alert("Could not load image from that URL. It might be protected or invalid.");
+       showError("Could not load image from that URL. It might be protected or invalid.");
     } finally {
        setIsUrlLoading(false);
     }
@@ -272,7 +276,7 @@ export default function ButtonPrinter() {
        closeCropModal();
     } catch (e) {
        console.error(e);
-       alert("Failed to crop image.");
+       showError("Failed to crop image.");
     }
   };
 
@@ -318,7 +322,9 @@ export default function ButtonPrinter() {
     const GAP = 18;
     
     const buttonSizePts = buttonSize * 72;
-    const slotSize = buttonSizePts + GAP;
+    const bleedPts = printBleed ? (0.125 * 72) : 0;
+    const imageSizePts = buttonSizePts + (bleedPts * 2);
+    const slotSize = imageSizePts + GAP;
     
     const usableWidth = paper.width - (MARGIN * 2);
     const usableHeight = paper.height - (MARGIN * 2);
@@ -357,42 +363,44 @@ export default function ButtonPrinter() {
       const row = Math.floor(currentItemOnPage / cols);
       
       const x = MARGIN + (col * slotSize);
-      const y = paper.height - MARGIN - buttonSizePts - (row * slotSize);
+      const y = paper.height - MARGIN - imageSizePts - (row * slotSize);
       
       currentPage.drawImage(pdfImage, {
         x,
         y,
-        width: buttonSizePts,
-        height: buttonSizePts,
+        width: imageSizePts,
+        height: imageSizePts,
       });
       
-      const centerX = x + (buttonSizePts / 2);
-      const centerY = y + (buttonSizePts / 2);
+      const centerX = x + (imageSizePts / 2);
+      const centerY = y + (imageSizePts / 2);
       const radius = buttonSizePts / 2;
       
-      currentPage.drawCircle({
-        x: centerX,
-        y: centerY,
-        size: radius,
-        borderWidth: 2,
-        borderColor: rgb(0, 0, 0),
-        color: undefined,
-      });
-      
-      currentPage.drawCircle({
-        x: centerX,
-        y: centerY,
-        size: radius - 1,
-        borderWidth: 1,
-        borderColor: rgb(1, 1, 1),
-        color: undefined,
-      });
+      if (showOutline) {
+        currentPage.drawCircle({
+          x: centerX,
+          y: centerY,
+          size: radius,
+          borderWidth: 2,
+          borderColor: rgb(0, 0, 0),
+          color: undefined,
+        });
+        
+        currentPage.drawCircle({
+          x: centerX,
+          y: centerY,
+          size: radius - 1,
+          borderWidth: 1,
+          borderColor: rgb(1, 1, 1),
+          color: undefined,
+        });
+      }
       
       currentItemOnPage++;
     }
 
     return await finalPdf.save();
-  }, [images, buttonSize, paperSize, copies]);
+  }, [images, buttonSize, paperSize, copies, printBleed, showOutline]);
 
   useEffect(() => {
     let isMounted = true;
@@ -454,7 +462,7 @@ export default function ButtonPrinter() {
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('An error occurred while generating the PDF. Please try again.');
+      showError('An error occurred while generating the PDF. Please try again.');
     } finally {
       setIsGeneratingDownload(false);
     }
@@ -680,6 +688,30 @@ export default function ButtonPrinter() {
                   min="1"
                   max="100"
                 />
+              </label>
+              
+              <label className="fix-toggle">
+                <input 
+                  type="checkbox" 
+                  checked={printBleed}
+                  onChange={(e) => setPrintBleed(e.target.checked)}
+                />
+                <div className="fix-info">
+                  <strong>Add Print Bleed</strong>
+                  <p>Prints the image slightly larger than the cutline, giving you a margin of error when cutting.</p>
+                </div>
+              </label>
+
+              <label className="fix-toggle">
+                <input 
+                  type="checkbox" 
+                  checked={showOutline}
+                  onChange={(e) => setShowOutline(e.target.checked)}
+                />
+                <div className="fix-info">
+                  <strong>Print Cutline (Circle Outline)</strong>
+                  <p>Draws a black and white circle on top of the images to show where to cut.</p>
+                </div>
               </label>
             </div>
           </div>

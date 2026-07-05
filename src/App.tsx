@@ -3,19 +3,22 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import PosterOptimizer from './pages/PosterOptimizer';
 import ButtonPrinter from './pages/ButtonPrinter';
+import { ErrorProvider } from './contexts/ErrorContext';
 import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="poster-optimizer" element={<PosterOptimizer />} />
-          <Route path="button-printer" element={<ButtonPrinter />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ErrorProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="poster-optimizer" element={<PosterOptimizer />} />
+            <Route path="button-printer" element={<ButtonPrinter />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ErrorProvider>
   );
 }
 
